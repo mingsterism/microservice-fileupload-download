@@ -6,14 +6,17 @@ var request = require("request"); // to use browser and download?
 
 var Busboy = require("busboy");
 
-const port = 8080;
+const { URI, PORT } = process.env;
 
 const mongodb = require("mongodb");
 const ObjectID = require("mongodb").ObjectID;
 
 const MongoClient = mongodb.MongoClient;
-const uri =
-  "mongodb+srv://tintinthong:H-i5JBrKh-Xp3%21-@cluster0-duqpt.mongodb.net/test?retryWrites=true";
+console.log("Environment variables: ", process.env);
+
+const port = PORT;
+const uri = URI;
+// ("mongodb+srv://tintinthong:H-i5JBrKh-Xp3%21-@cluster0-duqpt.mongodb.net/test?retryWrites=true");
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 // //handle cross origin requiues
@@ -103,4 +106,3 @@ app.get("/getFile", function(req, res) {
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
