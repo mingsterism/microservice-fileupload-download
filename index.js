@@ -12,11 +12,9 @@ const mongodb = require("mongodb");
 const ObjectID = require("mongodb").ObjectID;
 
 const MongoClient = mongodb.MongoClient;
-console.log("Environment variables: ", process.env);
 
-const port = PORT;
+let port = PORT;
 const uri = URI;
-// ("mongodb+srv://tintinthong:H-i5JBrKh-Xp3%21-@cluster0-duqpt.mongodb.net/test?retryWrites=true");
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 // //handle cross origin requiues
@@ -37,6 +35,12 @@ const client = new MongoClient(uri, { useNewUrlParser: true });
 //     callback.onContinue();
 // };
 
+async function getFileDetails({ id, db }) {
+  const bucket = new mongodb.GridFSBucket(db);
+  const fileMeta = await bucket.find({ _id: ObjectID(id) }).toArray();
+  return fileMeta;
+}
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // * => allow all origins
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,OPTIONS,DELETE");
@@ -56,7 +60,7 @@ client.connect(err => {
   if (err) {
     console.log("Error occurred while connecting to MongoDB Atlas...\n", err);
   }
-  db = client.db("Cluster0");
+  db = client.db("okestra");
 });
 
 app.get("/", function(req, res, bucket) {
@@ -68,8 +72,9 @@ app.post("/postFile", (req, res, bucket) => {
   const busboy = new Busboy({ headers: req.headers });
   req.pipe(busboy);
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+    const metadata = { mimetype, encoding, fieldname, filename}
     file
-      .pipe(bucket.openUploadStream(filename))
+      .pipe(bucket.openUploadStream(filename, {metadata, contentType: mimetype}))
       .on("error", err => {
         console.error("ERROR: ", err);
       })
@@ -83,8 +88,6 @@ app.post("/postFile", (req, res, bucket) => {
     res.statusCode = 200;
     res.json({ statusCode: 200 });
   });
-
-  // Pipe the HTTP Request into Busboy.
 });
 
 app.get("/listFiles", (req, res) => {
@@ -93,16 +96,19 @@ app.get("/listFiles", (req, res) => {
     .find({})
     .toArray()
     .then(data => {
-      console.log("Data", data);
-      res.send(data);
+      res.send(JSON.stringify(data));
     });
 });
 
-app.get("/getFile", function(req, res) {
+app.get("/getFile", async function(req, res) {
   const { id } = req.query;
   var bucket = new mongodb.GridFSBucket(db);
+  const payload = await getFileDetails({ id, db });
   const bucketFile = bucket.openDownloadStream(ObjectID(id));
+  res.setHeader('Content-Type', payload[0].contentType)
   bucketFile.pipe(res);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port === undefined ? (port = 4000) : port, () =>
+  console.log(`Example app listening on port ${port}!`)
+);
