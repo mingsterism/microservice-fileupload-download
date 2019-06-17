@@ -1,4 +1,4 @@
-FROM node:current
+FROM node:lts-slim
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -13,6 +13,6 @@ COPY ./package.json .
 RUN apt-get update && npm install
 
 # expose  api port and debug port
-EXPOSE 3000 9229
+EXPOSE 3001 9229
 
 CMD [ "npm", "run", "start" ]

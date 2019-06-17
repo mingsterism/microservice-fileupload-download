@@ -80,6 +80,7 @@ app.post("/postFile", (req, res, bucket) => {
       })
       .on("finish", () => {
         console.log("DONE");
+        // res.send({statusCode: 200})
       });
   });
 
@@ -109,6 +110,6 @@ app.get("/getFile", async function(req, res) {
   bucketFile.pipe(res);
 });
 
-app.listen(port === undefined ? (port = 4000) : port, () =>
+app.listen(port === undefined ? (port = 3001) : port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
