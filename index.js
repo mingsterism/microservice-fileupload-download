@@ -1,4 +1,5 @@
 const express = require("express");
+const process = require('process')
 const app = express();
 var path = require("path");
 var cors = require("cors");
@@ -6,14 +7,17 @@ var request = require("request"); // to use browser and download?
 
 var Busboy = require("busboy");
 
-const { URI, PORT } = process.env;
+// const { URI, PORT } = process.env;
+const URI =
+  "mongodb+srv://admin1:faiz101@cluster0-1znkq.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
 const mongodb = require("mongodb");
 const ObjectID = require("mongodb").ObjectID;
 
 const MongoClient = mongodb.MongoClient;
 
-let port = PORT;
+// let port = 3001;   // if using middleware use this port as middleware take up port 3000
+let port = 3000
 const uri = URI;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
@@ -72,22 +76,23 @@ app.post("/postFile", (req, res, bucket) => {
   const busboy = new Busboy({ headers: req.headers });
   req.pipe(busboy);
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
-    const metadata = { mimetype, encoding, fieldname, filename}
+    const metadata = { mimetype, encoding, fieldname, filename };
     file
-      .pipe(bucket.openUploadStream(filename, {metadata, contentType: mimetype}))
+      .pipe(
+        bucket.openUploadStream(filename, { metadata, contentType: mimetype })
+      )
       .on("error", err => {
         console.error("ERROR: ", err);
       })
-      .on("finish", () => {
-        console.log("DONE");
-        // res.send({statusCode: 200})
+      .on("finish", (payload) => {
+        console.log("DONE - Finished");
+        res.json(payload);
       });
   });
 
   // Listen for event when Busboy is finished parsing the form.
   busboy.on("finish", function() {
-    res.statusCode = 200;
-    res.json({ statusCode: 200 });
+    console.log("Finished");
   });
 });
 
@@ -106,7 +111,7 @@ app.get("/getFile", async function(req, res) {
   var bucket = new mongodb.GridFSBucket(db);
   const payload = await getFileDetails({ id, db });
   const bucketFile = bucket.openDownloadStream(ObjectID(id));
-  res.setHeader('Content-Type', payload[0].contentType)
+  res.setHeader("Content-Type", payload[0].contentType);
   bucketFile.pipe(res);
 });
 
