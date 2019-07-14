@@ -16,8 +16,8 @@ const ObjectID = require("mongodb").ObjectID;
 
 const MongoClient = mongodb.MongoClient;
 
-// let port = 3001;   // if using middleware use this port as middleware take up port 3000
-let port = 3000
+let port = 3001;   // if using middleware use this port as middleware take up port 3000
+//let port = 3000
 const uri = URI;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
