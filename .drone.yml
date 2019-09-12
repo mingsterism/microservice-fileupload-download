@@ -63,3 +63,5 @@ steps:
       {{else}}
         Build {{build.number}} of {{build.branch}} on {{repo.name}} failed. Please fix!. {{build.link}}
       {{/success}}
+depends_on:
+- default
