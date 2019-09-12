@@ -3,13 +3,14 @@ const expect = require('chai').expect
 const request = require('request');
 const { client, app } = require('../index.js')
 
-describe('testing main route/', function () {
+describe('test connection', function () {
   before(function(){
-    console.log('starting')
+    console.log('starting of a describe')
   })
   beforeEach(function(){
-    console.log('see.. this function is run EACH time')
+    console.log('starting of each it')
   })
+
   it('OK status http connection', function () {
     request("http://localhost:3001", function (err, res, body) {
       if (err) {

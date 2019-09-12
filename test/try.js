@@ -8,8 +8,8 @@ request("http://localhost:3001", function(err,res,body){
     if (err){
         return console.error('upload failed:', err);
     }
-    console.log(Object.keys(res))
-    console.log(res.statusCode)
+    // console.log(Object.keys(res))
+    // console.log(res.statusCode)
     // console.log(res.headers)
     // console.log(res.client)
     
