@@ -22,12 +22,12 @@ steps:
   commands:
     - cd /root/zoa/microservice-fileupload-download 
     - gcloud builds submit
-//- name: docker compose (deploy) 
-//  commands:
-//    - cd /root/zoa
-//    - docker-compose up
-//    - pwd 
-//    - ls
+- name: docker compose (deploy) 
+  commands:
+    - cd /root/zoa
+    - docker-compose up
+    - pwd 
+    - ls
 
 ---
 kind: pipeline
