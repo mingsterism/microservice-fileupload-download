@@ -46,11 +46,11 @@ steps:
 - name: decrypt key
   commands:
     - gcloud kms decrypt \
-    - plaintext-file="keys.json" \
-    - ciphertext-file="keys.json.enc" \
-    - location=global \
-    - keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" \
-    - key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
+    - --plaintext-file="keys.json" \
+    - --ciphertext-file="keys.json.enc" \
+    - --location=global \
+    - --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" \
+    - --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
 - name: cloudbuild microservice-fileupload-download 
   commands:
     - cd /root/zoa/microservice-fileupload-download 
