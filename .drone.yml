@@ -50,7 +50,8 @@ steps:
 #  commands:
 #    - cd /root/zoa
 #    - docker-compose up
-
+depends_on:
+- default
 ---
 kind: pipeline
 name: social-notify-status
