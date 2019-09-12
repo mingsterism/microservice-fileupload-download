@@ -1,4 +1,17 @@
 kind: pipeline
+name: social-notify
+
+steps:
+- name: start notify slack 
+  image: plugins/slack
+  settings:
+    webhook: https://hooks.slack.com/services/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
+    channel: cicd
+    template: >
+        Build {{build.number}} of {{build.branch}} started on {{repo.name}}. {{build.link}}
+
+---
+kind: pipeline
 type: ssh
 name: default
 
@@ -26,12 +39,10 @@ steps:
   commands:
     - cd /root/zoa
     - docker-compose up
-    - pwd 
-    - ls
 
 ---
 kind: pipeline
-name: social-notifications 
+name: social-notify-status
 
 steps:
 - name: start notify slack 
