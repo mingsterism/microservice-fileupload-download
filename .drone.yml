@@ -12,6 +12,17 @@ steps:
 
 ---
 kind: pipeline
+name: unit-test 
+
+steps:
+- name: node unit test
+  image: node 
+  commands:
+    - npm install
+    - npm test
+
+---
+kind: pipeline
 type: ssh
 name: default
 
