@@ -8,9 +8,10 @@ var request = require("request"); // to use browser and download?
 var Busboy = require("busboy");
 
 // const { URI, PORT } = process.env;
-const URI =
-  "mongodb+srv://admin1:faiz101@cluster0-1znkq.gcp.mongodb.net/test?retryWrites=true&w=majority";
-
+const PW = "@H-i5JBrKh-Xp3!"
+const encodePW= encodeURI(PW);
+const URI=`mongodb+srv://JUSTINTHONG:${encodePW}-cluster0-v7rqg.mongodb.net/test?retryWrites=true&w=majority`;
+console.log(URI)
 const mongodb = require("mongodb");
 const ObjectID = require("mongodb").ObjectID;
 
@@ -18,8 +19,7 @@ const MongoClient = mongodb.MongoClient;
 
 let port = 3001;   // if using middleware use this port as middleware take up port 3000
 //let port = 3000
-const uri = URI;
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const client = new MongoClient(URI, { useNewUrlParser: true });
 
 // //handle cross origin requiues
 // function handleCors(req, res, callback) {
@@ -115,6 +115,13 @@ app.get("/getFile", async function(req, res) {
   bucketFile.pipe(res);
 });
 
+
+//endpoint just for testing
+app.get("/test", function (req,res){
+  res.send('I will send you this')
+});
+
 app.listen(port === undefined ? (port = 3001) : port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
+module.exports={app}
