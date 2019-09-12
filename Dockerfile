@@ -15,4 +15,5 @@ RUN apt-get update && npm install
 # expose  api port and debug port
 EXPOSE 3001 9229
 
+CMD ["npm","test"] 
 CMD [ "npm", "run", "start" ]

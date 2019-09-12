@@ -15,7 +15,7 @@ steps:
     webhook: https://hooks.slack.com/services/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
     channel: cicd
     template: >
-        Build {{build.number}} of {{build.branch}} started. {{build.link}}
+        Build {{build.number}} of {{build.branch}} on "microservice-fileupload-download" started. {{build.link}}
 - name: clone and set up secrets
   commands:
     - cd /root/ 
@@ -25,29 +25,16 @@ steps:
   commands:
     - gcloud config set project zoa001 
     - gcloud auth activate-service-account zoa-service-acct@zoa001.iam.gserviceaccount.com --key-file=/root/secrets/.creds.json
-#- name: cloudbuild graphql-server
-#  commands:
-#    - cd /root/zoa/graphql-server
-#    - gcloud  config configurations list
-#    - gcloud builds submit
-#- name: cloudbuild caddy-server 
-#  commands:
-#    - cd /root/zoa/caddy-server
-#    - gcloud builds submit
-#- name: cloudbuild okestra-front-v1 
-#  commands:
-#    - cd /root/zoa/okestra-front-v1
-#    - gcloud builds submit
-#- name: cloudbuild jwt-auth-nodejs-microservice 
-#  commands:
-#    - cd /root/zoa/jwt-auth-nodejs-microservice
-#    - gcloud builds submit
-#- name: docker compose (deploy) 
-#  commands:
-#    - cd /root/zoa
-#    - docker-compose up
-#    - pwd 
-#    - ls
+- name: cloudbuild microservice-fileupload-download 
+  commands:
+    - cd /root/zoa/microservice-fileupload-download 
+    - gcloud builds submit
+//- name: docker compose (deploy) 
+//  commands:
+//    - cd /root/zoa
+//    - docker-compose up
+//    - pwd 
+//    - ls
 - name: end notify slack 
   image: plugins/slack
   settings:
@@ -55,7 +42,7 @@ steps:
     channel: cicd
     template: >
       {{#success build.status}}
-        Build {{build.number}} of {{build.branch}} successful. {{build.link}}
+        Build {{build.number}} of {{build.branch}} "microservice-fileupload-download" successful. {{build.link}}
       {{else}}
         Build {{build.number}} of {{build.branch}} failed. Please fix!. {{build.link}}
       {{/success}}
