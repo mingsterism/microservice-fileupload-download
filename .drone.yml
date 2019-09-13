@@ -17,6 +17,9 @@ name: test
 steps:
 - name: npm test (can't decrypt without full gcloud installation)
   image: node 
+  environment:
+    DBATLAS_USER: JUSTINTHONG
+    DBATLAS_PW: JmyRvSGoZqMIwzAGISMI
   commands:
     - npm install
     - npm test
@@ -55,10 +58,6 @@ kind: pipeline
 name: social-notify-status
 
 steps:
-- clone:
-  none:
-    image: ubuntu
-    - echo "skipping clone step"
 - name: start notify slack 
   image: plugins/slack
   settings:
