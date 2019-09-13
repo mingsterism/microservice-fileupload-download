@@ -25,6 +25,17 @@ steps:
   commands:
     - npm install
     - npm test
+- name: end notify slack 
+  image: plugins/slack
+  settings:
+    webhook: https://hooks.slack.com/services/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
+    channel: cicd
+    template: >
+      {{#success build.status}}
+        Build {{build.number}} of {{build.branch}} on {{repo.name}} successful. {{build.link}}
+      {{else}}
+        Build {{build.number}} of {{build.branch}} on {{repo.name}} failed. Please fix!. {{build.link}}
+      {{/success}}
 
 ---
 kind: pipeline
@@ -52,17 +63,6 @@ steps:
   commands:
     - cp /root/docker-compose.yml .
     - docker-compose up -d --force-recreate
-- name: end notify slack 
-  image: plugins/slack
-  settings:
-    webhook: https://hooks.slack.com/services/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
-    channel: cicd
-    template: >
-      {{#success build.status}}
-        Build {{build.number}} of {{build.branch}} on {{repo.name}} successful. {{build.link}}
-      {{else}}
-        Build {{build.number}} of {{build.branch}} on {{repo.name}} failed. Please fix!. {{build.link}}
-      {{/success}}
 depends_on:
 - test 
 
