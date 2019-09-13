@@ -57,7 +57,7 @@ name: social-notify-status
 steps:
 - clone:
   none:
-    image: ubntu
+    image: ubuntu
     - echo "skipping clone step"
 - name: start notify slack 
   image: plugins/slack
