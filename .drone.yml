@@ -30,7 +30,9 @@ steps:
  
       Author: {{ build.author }}
   when:
-    status: [ success, failure ]
+    status: 
+      - success
+      - failure 
 
 ---
 kind: pipeline

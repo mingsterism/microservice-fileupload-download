@@ -27,7 +27,7 @@ describe('Array', function() {
       assert.equal(-1, [1,2,3].indexOf(4));
     });
     it('try error', function(){
-      assert.equal(2,2);
+      assert.equal(1,2);
     }) 
   });
 });
