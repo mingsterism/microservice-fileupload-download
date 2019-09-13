@@ -20,12 +20,6 @@ steps:
   settings:
     webhook: https://hooks.slack.com/services/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
     channel: cicd
-    template: >
-      {{#success build.status}}
-        Build {{build.number}} of {{build.branch}} on {{repo.name}} successful. {{build.link}}
-      {{else}}
-        Build {{build.number}} of {{build.branch}} on {{repo.name}} failed. Please fix!. {{build.link}}
-      {{/success}}
 - name: npm test (can't decrypt without full gcloud installation)
   image: node 
   environment:
@@ -41,6 +35,12 @@ steps:
   settings:
     webhook: https://hooks.slack.com/services/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
     channel: cicd 
+    template: >
+      {{#success build.status}}
+        Build {{build.number}} of {{build.branch}} on {{repo.name}} successful. {{build.link}}
+      {{else}}
+        Build {{build.number}} of {{build.branch}} on {{repo.name}} failed. Please fix!. {{build.link}}
+      {{/success}}
   when:
     status: [ success, failure ]
 
