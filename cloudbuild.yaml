@@ -4,4 +4,4 @@ steps:
       env: 
         - 'PROJECT_ID=zoa001'
 images: ["asia.gcr.io/$PROJECT_ID/fileserver"]
-tags:[ "v1" ,"latest" ]
+tags: ["v1" ,"latest" ]
