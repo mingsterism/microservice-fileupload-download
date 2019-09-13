@@ -2,11 +2,6 @@ kind: pipeline
 name: test 
 
 steps:
-- name: end notify slack 
-  image: plugins/slack
-  settings:
-    webhook: https://hooks.slack.com/services/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
-    channel: cicd
 - name: npm test (can't decrypt without full gcloud installation)
   image: node 
   environment:
@@ -29,9 +24,9 @@ steps:
         *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
       <{{ build.link }}|Visit build page ↗>
       {{/success}}
-      Commit: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}>
-      Branch: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commits/{{ build.branch }}|{{ build.branch }}>
-      Author: {{ build.author }}
+      Commit: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}>\n
+      Branch: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commits/{{ build.branch }}|{{ build.branch }}> \n
+      Author: {{ build.author }}\n
   when:
     status: [ success, failure ]
 
@@ -61,6 +56,23 @@ steps:
   commands:
     - cp /root/docker-compose.yml .
     - docker-compose up -d --force-recreate
+- name: slack
+  image: plugins/slack
+  settings:
+    webhook: https://hooks.slack.com/services/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
+    channel: cicd
+    template: > 
+      {{#success build.status}} 
+        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}*: <https://github.com/{{ repo.owner }}/{{ repo.name }}/pull/{{ build.pull }}|Pull Request #{{ build.pull }}>
+      {{else}}
+        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
+      <{{ build.link }}|Visit build page ↗>
+      {{/success}}
+      Commit: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}> \n
+      Branch: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commits/{{ build.branch }}|{{ build.branch }}> \n
+      Author: {{ build.author }} \n
+  when:
+    status: [ success, failure ]
 depends_on:
 - test 
 
