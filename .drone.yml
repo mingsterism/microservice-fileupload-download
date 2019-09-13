@@ -18,6 +18,11 @@ steps:
 - name: npm test 
   image: node 
   commands:
+    - name: decrypt key
+    commands:
+      - cd /root/zoa/microservice-fileupload-download/
+      - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="keys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
+    - cat keys.json 
     - npm install
     - npm test
 
@@ -33,25 +38,10 @@ server:
         from_secret: key002
 
 steps: 
-#- name: clone and set up secrets
-  #commands:
-    #- cd /root/
-    #- sh cloneinit.sh
-    #- cd /root/ 
-    #- cd /root/zoa/
-    #- rm -rf microservice-fileupload-download
-    #- sh cloneinit.sh 
-    #- git clone -b develop git@github.com:mingsterism/microservice-fileupload-download.git 
-    #- cd /root/
-    #- sh setupsecrets.sh
 - name: auth server
   commands:
     - gcloud config set project zoa001 
     - gcloud auth activate-service-account zoa-service-acct@zoa001.iam.gserviceaccount.com --key-file=/root/secrets/.creds.json
-#- name: decrypt key
-  #commands:
-    #- cd /root/zoa/microservice-fileupload-download/
-    #- gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="keys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
 - name: cloudbuild microservice-fileupload-download 
   commands:
     - gcloud builds submit
