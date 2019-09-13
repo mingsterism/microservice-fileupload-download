@@ -87,3 +87,5 @@ steps:
       Author: {{ build.author }} 
   when:
     status: [ success, failure ]
+depends_on:
+- default
