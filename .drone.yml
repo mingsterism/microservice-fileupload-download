@@ -2,7 +2,7 @@ kind: pipeline
 name: test 
 
 steps:
-- name: npm test (can't decrypt without full gcloud installation)
+- name: npm test 
   image: node 
   environment:
     DBATLAS_USER: 
@@ -52,35 +52,25 @@ steps:
     - gcloud auth activate-service-account zoa-service-acct@zoa001.iam.gserviceaccount.com --key-file=/root/secrets/.creds.json
 - name: decrypt 
   commands:
-    - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="eys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
-#- name: cloudbuild microservice-fileupload-download 
-#  commands:
-#    - gcloud builds submit
-#- name: docker compose (deploy) 
-#  commands:
-#    - cp /root/docker-compose.yml .
-#    - docker-compose up -d --force-recreate
-- name: slack
-  image: plugins/slack
-  settings:
-    webhook: https://hooks.slack.com/services/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
-    channel: cicd
-    template: > 
-      {{#success build.status}} 
-        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
-      {{else}}
-        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
-      <{{ build.link }}|Visit build page ↗>
-      {{/success}}
-      Commit: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}> 
-
-      Branch: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commits/{{ build.branch }}|{{ build.branch }}> 
-
-      Author: {{ build.author }} 
-  when:
-    status:
-      - success
-      - failure
+    - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="keys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
+- name: cloudbuild microservice-fileupload-download 
+  commands:
+    - gcloud builds submit
+- name: docker compose (deploy) 
+  commands:
+    - cp /root/docker-compose.yml .
+    - docker-compose up -d --force-recreate
+- name: slack-success
+  commands: 
+    - cp /root/slack/message.sh .
+    - sh message.sh 
+  when: 
+    status: success
+- name: slack-fail
+  commands: 
+    - cp /root/slack/message.sh .
+    - sh message.sh 
+  when: 
+    status: failure
 depends_on:
 - test 
-
