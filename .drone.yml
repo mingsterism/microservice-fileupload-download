@@ -51,15 +51,13 @@ steps:
 - name: decrypt 
   commands:
     - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="keys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
-- name: cloudbuild microservice-fileupload-download 
-  commands:
-    - gcloud builds submit
-- name: docker compose (deploy) 
-  commands:
-    - cp /root/docker-compose.yml .
-    - docker-compose up -d --force-recreate
-  when:
-    status: [ success, failure ]
+#- name: cloudbuild microservice-fileupload-download 
+#  commands:
+#    - gcloud builds submit
+#- name: docker compose (deploy) 
+#  commands:
+#    - cp /root/docker-compose.yml .
+#    - docker-compose up -d --force-recreate
 depends_on:
 - test 
 
