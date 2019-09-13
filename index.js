@@ -19,13 +19,12 @@ async function getFileDetails({ id, db }) {
   return fileMeta;
 }
 
-//connect  to db
 let db;
 client.connect(err => {
   if (err) {
     console.log("Error occurred while connecting to MongoDB Atlas...\n", err);
   }
-  db = client.db("okestra");
+  db = client.db("fs-grid");
 });
 
 app.use(function(req, res, next) {
@@ -37,7 +36,6 @@ app.use(function(req, res, next) {
   ); 
   next();
 });
-
 
 app.get("/", function(req, res, bucket) {
   res.sendFile(path.join(__dirname + "/index.html"));
@@ -60,6 +58,7 @@ app.post("/postFile", (req, res, bucket) => {
         console.log("DONE - Finished");
         res.json(payload);
       });
+  // 3001 is the port used
   });
 
   // Listen for event when Busboy is finished parsing the form.
@@ -87,11 +86,6 @@ app.get("/getFile", async function(req, res) {
   bucketFile.pipe(res);
 });
 
-
-//endpoint just for testing
-app.get("/test", function (req,res){
-  res.send('I will send you this')
-});
 
 app.listen(port === undefined ? (port = 3001) : port, () =>
   console.log(`Example app listening on port ${port}!`)
