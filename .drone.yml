@@ -18,6 +18,7 @@ steps:
 - name: npm test 
   image: node 
   commands:
+    - pwd
     - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="keys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
     - cat keys.json 
     - npm install
