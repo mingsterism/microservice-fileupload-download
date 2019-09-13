@@ -55,6 +55,10 @@ kind: pipeline
 name: social-notify-status
 
 steps:
+- clone:
+  none:
+    image: ubntu
+    - echo "skipping clone step"
 - name: start notify slack 
   image: plugins/slack
   settings:
