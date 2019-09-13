@@ -15,7 +15,7 @@ kind: pipeline
 name: test 
 
 steps:
-- name: node unit test
+- name: npm test 
   image: node 
   commands:
     - npm install
