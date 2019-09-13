@@ -18,8 +18,10 @@ steps:
 - name: npm test (can't decrypt without full gcloud installation)
   image: node 
   environment:
-    DBATLAS_USER: JUSTINTHONG
-    DBATLAS_PW: JmyRvSGoZqMIwzAGISMI
+    DBATLAS_USER: 
+      from_secret: DBATLAS_USER
+    DBATLAS_PW:
+      from_secret: DBATLAS_PW 
   commands:
     - npm install
     - npm test
