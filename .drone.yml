@@ -58,6 +58,16 @@ steps:
   commands:
     - cp /root/docker-compose.yml .
     - docker-compose up -d --force-recreate
+  when:
+    status: [ success, failure ]
+depends_on:
+- test 
+
+---
+kind: pipeline
+name: slack-ssh 
+
+steps:
 - name: slack
   image: plugins/slack
   settings:
@@ -77,6 +87,3 @@ steps:
       Author: {{ build.author }} 
   when:
     status: [ success, failure ]
-depends_on:
-- test 
-
