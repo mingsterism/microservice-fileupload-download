@@ -50,7 +50,7 @@ steps:
     - gcloud auth activate-service-account zoa-service-acct@zoa001.iam.gserviceaccount.com --key-file=/root/secrets/.creds.json
 - name: decrypt 
   commands:
-    - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="keys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
+    - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="eys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
 #- name: cloudbuild microservice-fileupload-download 
 #  commands:
 #    - gcloud builds submit
