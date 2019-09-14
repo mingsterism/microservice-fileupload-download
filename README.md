@@ -1,4 +1,3 @@
-
 [![Build Status](https://drone.zoadesk.io/api/badges/mingsterism/microservice-fileupload-download/status.svg?ref=refs/heads/develop)](https://drone.zoadesk.io/mingsterism/microservice-fileupload-download)
 
 Uploading and download a file to a from a database using FS Grid.
