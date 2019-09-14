@@ -46,7 +46,7 @@ server:
         from_secret: key002
 
 steps: 
-- name: auth server
+- name: authorize google
   commands:
     - gcloud config set project zoa001 
     - gcloud auth activate-service-account zoa-service-acct@zoa001.iam.gserviceaccount.com --key-file=/root/secrets/.creds.json
