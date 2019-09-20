@@ -9,11 +9,11 @@ platform:
 steps:
 - name: npm test 
   image: node 
-  environment:
-    DBATLAS_USER: 
-      from_secret: dbatlas-user  
-    DBATLAS_PW:
-      from_secret: dbatlas-pw 
+  #environment:
+  #  DBATLAS_USER: 
+  #    from_secret: dbatlas-user  
+  #  DBATLAS_PW:
+  #    from_secret: dbatlas-pw 
   commands:
     - echo $DBATLAS_USER
     - npm install
