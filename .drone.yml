@@ -12,7 +12,7 @@ steps:
   commands:
     - echo $DBATLAS_USER
     - npm install
-    - npm test
+    #- npm test
 - name: slack
   image: plugins/slack
   settings:
