@@ -60,9 +60,6 @@ steps:
       - cat .creds.json | sudo docker login -u _json_key --password-stdin https://asia.gcr.io/zoa001/jwt
       - cat .creds.json | sudo docker login -u _json_key --password-stdin https://asia.gcr.io/zoa001/caddy-server
       - cat .creds.json | sudo docker login -u _json_key --password-stdin https://asia.gcr.io/zoa001/graphql-server
-  - name: decrypt 
-    commands:
-    - gcloud kms decrypt --plaintext-file="keys.json" --ciphertext-file="keys.json.enc" --location=global --keyring="projects/zoa001/locations/global/keyRings/keyring-zoa001" --key="projects/zoa001/locations/global/keyRings/keyring-zoa001/cryptoKeys/mongo-key"
   - name: cloudbuild microservice-fileupload-download
     commands:
       - sudo gcloud builds submit
