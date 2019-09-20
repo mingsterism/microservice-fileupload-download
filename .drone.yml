@@ -1,5 +1,10 @@
 kind: pipeline
+type: docker 
 name: test 
+
+platform:
+  os: linux
+  arch: arm
 
 steps:
 - name: npm test 
@@ -97,6 +102,7 @@ data: OH7K8zbcVFS6kuBWe/GwvwH3oyVorZYlJxfMHnTwTDq0Xo/xrfyf
 kind: secret
 name: dbatlas-pw 
 data: +bIGq0VNTQcCdXoafmWs/rrez3GnWlybw87QKD6/k/QUj0gYYcI=
+
 #---
 #kind: pipeline
 #type: ssh
