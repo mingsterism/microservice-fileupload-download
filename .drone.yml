@@ -1,45 +1,42 @@
-kind: pipeline
-name: test 
-
-platform:
-  os: linux
-  arch: arm
-
-steps:
-- name: npm test 
-  image: node 
-  #environment:
-  #  DBATLAS_USER: 
-  #    from_secret: dbatlas-user  
-  #  DBATLAS_PW:
-  #    from_secret: dbatlas-pw 
-  commands:
-    - echo $DBATLAS_USER
-    - npm install
-    #- npm test
-- name: slack
-  image: plugins/slack
-  settings:
-    webhook: https://hooks.slack.com/services/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
-    channel: cicd
-    template: > 
-      {{#success build.status}} 
-        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
-      {{else}}
-        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
-      <{{ build.link }}|Visit build page ↗>
-      {{/success}}
-      Commit: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}>
-
-      Branch: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commits/{{ build.branch }}|{{ build.branch }}>
- 
-      Author: {{ build.author }}
-  when:
-    status: 
-      - success
-      - failure 
-
----
+#kind: pipeline
+#name: test 
+#
+#steps:
+#- name: npm test 
+#  image: node 
+#  environment:
+#    DBATLAS_USER: 
+#      from_secret: dbatlas-user  
+#    DBATLAS_PW:
+#      from_secret: dbatlas-pw 
+#  commands:
+#    - echo 'hello world'
+#    - echo $DBATLAS_USER
+#    - npm install
+#    - npm test
+#- name: slack
+#  image: plugins/slack
+#  settings:
+#    webhook: https://hooks.slack.com/services/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
+#    channel: cicd
+#    template: > 
+#      {{#success build.status}} 
+#        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
+#      {{else}}
+#        *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
+#      <{{ build.link }}|Visit build page ↗>
+#      {{/success}}
+#      Commit: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}>
+#
+#      Branch: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commits/{{ build.branch }}|{{ build.branch }}>
+# 
+#      Author: {{ build.author }}
+#  when:
+#    status: 
+#      - success
+#      - failure 
+#
+#---
 kind: pipeline
 type: ssh
 name: default
