@@ -39,6 +39,7 @@ steps:
       - success
       - failure 
 
+---
 kind: pipeline
 type: ssh
 name: default
