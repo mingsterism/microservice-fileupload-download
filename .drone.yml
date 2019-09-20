@@ -10,6 +10,7 @@ steps:
     DBATLAS_PW:
       from_secret: dbatlas-pw 
   commands:
+    - echo $DBATLAS_USER
     - npm install
     - npm test
 - name: slack
