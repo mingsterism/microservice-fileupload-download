@@ -82,7 +82,6 @@ steps:
 trigger:
   branch: 
     - master
-    - develop 
 
 ---
 kind: secret
