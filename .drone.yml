@@ -45,7 +45,7 @@ server:
   host: 35.247.140.17 
   user: sudo-admin 
   ssh_key:
-    from_secret: key002
+    from_secret: zoa-admin-ssh
 
 steps:
   - name: authorize google
