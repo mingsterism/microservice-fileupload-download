@@ -69,7 +69,7 @@ steps:
     commands:
       - cp /home/sudo-admin/docker-compose.yml .
       - sudo docker-compose pull fileserver 
-      - sudo docker-compose up -d --force-recreate
+      - sudo docker-compose up -d --build
   - name: slack
     commands:
       - cp /home/sudo-admin/slack/message.sh .
