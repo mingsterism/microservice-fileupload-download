@@ -1,5 +1,8 @@
 FROM node:lts-slim
 
+ENV DBATLAS_USER=$DBATLAS_USER
+ENV DBATLAS_PW=$DBATLAS_PW
+
 # Create app directory
 WORKDIR /usr/src/app
 
