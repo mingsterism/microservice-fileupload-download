@@ -1,16 +1,9 @@
 const express = require("express");
-const process = require("process");
 const app = express();
 var path = require("path");
 var Busboy = require("busboy");
 
-console.log(process.env.DBATLAS_PW);
-console.log(process.env.DBATLAS_USER);
-// const URI=`mongodb+srv://${process.env.DBATLAS_USER}:${process.env.DBATLAS_PW}@cluster0-duxva.mongodb.net/test?retryWrites=true&w=majority`;
-// const URI=`mongodb+srv://admin1:faiz101@cluster0-duxva.mongodb.net/test?retryWrites=true&w=majority`;
-// const URI = `mongodb+srv://${process.env.DBATLAS_USER}:${process.env.DBATLAS_PW}@cluster0-1znkq.gcp.mongodb.net/test?retryWrites=true`;
 const URI = `mongodb+srv://admin1:faiz101@cluster0-1znkq.gcp.mongodb.net/test?retryWrites=true`;
-console.log(URI);
 const mongodb = require("mongodb");
 const ObjectID = require("mongodb").ObjectID;
 
@@ -31,7 +24,6 @@ client.connect(err => {
     console.log("Error occurred while connecting to MongoDB Atlas...\n", err);
   }
   db = client.db("fs-grid");
-  console.log(db);
 });
 
 app.use(function(req, res, next) {
