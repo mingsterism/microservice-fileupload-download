@@ -1,21 +1,12 @@
 FROM node:lts-slim
 
-ENV DBATLAS_USER=DBATLAS_USER
-ENV DBATLAS_PW=DBATLAS_PW
+WORKDIR /app
 
-# Create app directory
-WORKDIR /usr/src/app
-
-# Copy the current directory contents into the container at /app
-COPY . /usr/src/app
-
-# Bundle app source
+COPY . /app
 COPY ./package.json .
 
-# npm install
-RUN apt-get update && npm install
+RUN npm install
 
-# expose  api port and debug port
-EXPOSE 3001 9229
+EXPOSE 3001
 
-CMD [ "npm", "run", "start" ]
+CMD ["node", "index.js"]
