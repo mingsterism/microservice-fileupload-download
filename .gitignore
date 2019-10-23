@@ -1,4 +1,4 @@
-.secret_env
 node_modules
+.secret_env
 .db_env
 decrpyt-file.sh
