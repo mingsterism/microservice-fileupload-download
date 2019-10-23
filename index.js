@@ -23,7 +23,7 @@ client.connect(err => {
   if (err) {
     console.error("\n🚀 ******************************* 🚀");
     console.error("error connecting to mongodb atlas");
-    console.error("uri: ", uri);
+    console.error("uri: ", URI);
     console.error("error: ", err);
     console.error("🚀 ******************************* 🚀\n");
     throw new Error(err);
@@ -31,7 +31,7 @@ client.connect(err => {
 
   console.log("\n🚀 ******************************* 🚀");
   console.log("connected to mongodb atlas");
-  console.log("uri: ", uri);
+  console.log("uri: ", URI);
   console.log("🚀 ******************************* 🚀\n");
   db = client.db("fs-grid");
 });
