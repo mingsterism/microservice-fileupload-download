@@ -24,7 +24,6 @@ client.connect(err => {
     console.error("\n🚀 ******************************* 🚀");
     console.error("error connecting to mongodb atlas");
     console.error("uri: ", URI);
-    console.error("error: ", err);
     console.error("🚀 ******************************* 🚀\n");
     throw new Error(err);
   }
