@@ -1,6 +1,14 @@
-steps: 
-    - name: "gcr.io/cloud-builders/docker"
-      args: ["build", "-t", "asia.gcr.io/$PROJECT_ID/fileserver:v1", "."]
-      env: 
-        - 'PROJECT_ID=zoa001'
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "asia.gcr.io/$PROJECT_ID/fileserver:v1",
+        "-f",
+        "Dockerfile.production",
+        ".",
+      ]
+    env:
+      - "PROJECT_ID=zoa001"
 images: ["asia.gcr.io/$PROJECT_ID/fileserver:v1"]
