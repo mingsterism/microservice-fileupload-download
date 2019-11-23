@@ -55,24 +55,37 @@ app.post("/postFile", (req, res, bucket) => {
   req.pipe(busboy);
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
     const metadata = { mimetype, encoding, fieldname, filename };
+    console.log(metadata);
     file
-      .pipe(
-        bucket.openUploadStream(filename, { metadata, contentType: mimetype })
-      )
+      .pipe(process.stdout)
       .on("error", err => {
         console.error("ERROR: ", err);
       })
       .on("finish", payload => {
-        console.log("DONE - Finished");
-        res.json(payload);
+        console.log("Inner finishsssss");
+        return res.json(payload);
       });
+    // file
+    //   .pipe(
+    //     bucket.openUploadStream(filename, { metadata, contentType: mimetype })
+    //   )
+    //   .on("error", err => {
+    //     console.error("ERROR: ", err);
+    //   })
+    //   .on("finish", payload => {
+    //     console.log("DONE - Finished");
+    //     res.json(payload);
+    //   });
     // 3001 is the port used
   });
 
   // Listen for event when Busboy is finished parsing the form.
-  busboy.on("finish", function() {
-    console.log("Finished");
+  busboy.on("finish", function(d) {
+    console.log("Finished", d);
+    res.writeHead(200, { Connection: "close" });
+    res.end("File uploaded");
   });
+  return req.pipe(busboy);
 });
 
 app.get("/listFiles", (req, res) => {
@@ -84,11 +97,17 @@ app.get("/listFiles", (req, res) => {
       res.send(JSON.stringify(data));
     });
 });
+app.get("/getFileMeta",(req, res) => {
+  const { id } = req.query;
+  const payload = await getFileDetails({ id, db });
+  res.send(payload);
+});
 
 app.get("/getFile", async function(req, res) {
   const { id } = req.query;
   var bucket = new mongodb.GridFSBucket(db);
   const payload = await getFileDetails({ id, db });
+  console.log(payload[0]);
   const bucketFile = bucket.openDownloadStream(ObjectID(id));
   res.setHeader("Content-Type", payload[0].contentType);
   bucketFile.pipe(res);
